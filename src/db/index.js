@@ -1,9 +1,9 @@
-import sql from './node_modules/mssql';
+import sql from 'mssql';
 // Config connection to the melon database
-import * as config from '../../dbConfig.json';
+import * as config from '../../appConfig.json';
 
 export default class DB {
-    static #pool = new sql.ConnectionPool(config);
+    static #pool = new sql.ConnectionPool(config.db);
 
     static #connect = this.#pool.connect();
 

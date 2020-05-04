@@ -1,0 +1,16 @@
+
+{
+  "db": {
+    "user": "USERNAME",
+    "password": "PASSWORD",
+    "server": "SERVERNAME",
+    "database": "EventatorDB",
+    "options": {
+        "encrypt": true,
+        "enableArithAbort": true
+      }
+  },
+  "api": {
+      "version": "v1"
+  }
+}

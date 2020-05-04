@@ -1,4 +1,31 @@
-import DB from './db/db'
- DB.selectAll('EventInfo', 2).then(data => console.log(data))
+// import DB from './db'
+import Koa from 'koa'
+import koaBody from 'koa-body'
 
-// console.log(process.env.ID test)
+import getRouter from './router/getRouter'
+import postRouter from './router/postRouter'
+import putRouter from './router/putRouter'
+import deleteRouter from './router/deleteRouter'
+
+const app = new Koa();
+
+app.use(koaBody())
+
+app.use(getRouter.routes())
+app.use(getRouter.allowedMethods())
+
+app.use(postRouter.routes())
+app.use(postRouter.allowedMethods())
+
+app.use(putRouter.routes())
+app.use(putRouter.allowedMethods())
+
+app.use(deleteRouter.routes())
+app.use(deleteRouter.allowedMethods())
+
+app.use(async(ctx) => {
+    ctx.status = 404
+    ctx.body = "error 404"
+})
+
+app.listen(80, ()=> console.log('Server has been started ;)'))
