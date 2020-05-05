@@ -25,7 +25,10 @@ app.use(deleteRouter.allowedMethods())
 
 app.use(async(ctx) => {
     ctx.status = 404
-    ctx.body = "error 404"
+    ctx.body = {
+        status: 404,
+        message: 'Page not found'
+     };
 })
 
 app.listen(80, ()=> console.log('Server has been started ;)'))

@@ -1,5 +1,6 @@
 import Router from 'koa-router'
 import config from '../../appConfig.json'
+import {deleteProduct} from '../api/delete'
 import errorHandler from './errorHandler'
 const router = new Router()
 
@@ -26,7 +27,8 @@ router.delete(version + '/deleteProductGroup', async(ctx)=>{
 router.delete(version + '/deleteProduct', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
-    console.log(ctx.request.body);
+    const result = await deleteProduct({...ctx.query})
+    ctx.body = result
     } catch (error) {
         errorHandler(ctx, error)
     }

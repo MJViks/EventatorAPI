@@ -4,17 +4,13 @@ import * as config from '../../appConfig.json';
 
 export default class DB {
     static #pool = new sql.ConnectionPool(config.db);
-
-    static #connect = this.#pool.connect();
-
+    static #connect = this.#pool.connect()
     // The basic function of the request template. Based on this function, all queries are built
     // input:
     // text: string
     static query = async (text) => {
       try {
-        // wait while connection to the database is completed
-        await this.#connect;
-
+        // await this.#pool.connect()
         // Create a request
         const req = this.#pool.request();
 
@@ -28,7 +24,7 @@ export default class DB {
         return err;
       } finally {
         // Close the database connection
-        this.#pool.close();
+        // this.#pool.close()
       }
     }
 
