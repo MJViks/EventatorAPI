@@ -1,7 +1,7 @@
 export default (ctx, err) => {
     ctx.status = err.statusCode || err.status || 500;
     ctx.body = {
-    status: 500,
+    status: ctx.status,
     message: err.message
- };
+};  
 }

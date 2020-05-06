@@ -1,6 +1,6 @@
 import DB from '../db'
-
-export const Log = async(userId, action, eventId) =>  {
+import chResponse from './chDbResponse'
+export default async(userId, action, eventId) =>  {
     try { 
         userId = +userId
         eventId = +eventId
@@ -8,25 +8,20 @@ export const Log = async(userId, action, eventId) =>  {
         
         if(typeof userId === "number" && typeof eventId === "number" &&
          typeof action === "string" && action.length > 0){
-            await DB.query(`select Name from [User] ` +
+            let date = await DB.query(`select Name from [User] ` +
             `join [Event] on event_ID = id_Event where ` +
             `ID_Event = '${eventId}' ` +
-            `AND ID_User = '${userId}'`).then(data => {
-                if(data.rowsAffected)
-                    if (data.rowsAffected[0] == 1)
-                    userName = data.recordset[0].Name
-                    else
-                        throw new Error('Error Log. User is not found')
-                else
-                    throw new Error('Delete product error. Database error. Name: ' + data.name)
-                })
-               
+            `AND ID_User = '${userId}'`)
 
+            if(await chResponse(data, 'Log'))
+                userName = data.recordset[0].Name
+                
             if(userName)
                 await DB.insert('Log', ['date', 'time', 'action', 'User_ID'], [getDate(), getTime(), userName + ' -> ' + action, userId])
         }
-            else
-                throw new Error('Error Log. Invalid data') 
+        else
+            throw new Error('Logging error. Invalid data') 
+            
     } catch (err) {
             throw new Error(err)
       }

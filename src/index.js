@@ -9,8 +9,15 @@ import deleteRouter from './router/deleteRouter'
 
 const app = new Koa();
 
-app.use(koaBody())
 
+
+
+
+app.use(koaBody())
+app.use(async (ctx, next) =>{
+   
+   await next()
+})
 app.use(getRouter.routes())
 app.use(getRouter.allowedMethods())
 
@@ -31,4 +38,4 @@ app.use(async(ctx) => {
      };
 })
 
-app.listen(80, ()=> console.log('Server has been started ;)'))
+app.listen(8080, ()=> console.log('Server has been started ;)'))
