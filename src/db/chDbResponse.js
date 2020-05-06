@@ -1,4 +1,4 @@
-export default async(data, moduleName) =>{
+export default (data, moduleName) =>{  
     //Response test
     if(data.rowsAffected)
     //Check for the number of responses
@@ -11,6 +11,4 @@ export default async(data, moduleName) =>{
     else
     //Server Error or Missing Responses
       throw new Error(moduleName + ' error. Database error or Object not found. Name: ' + data.name)
-  
-  
 }

@@ -49,7 +49,7 @@ export default class DB {
     // function delete based on DB.query
     // input:
     // table: string, id: int
-    static delete = async (table, id) => DB.query(`DELETE FROM ${table} WHERE ID_${table} = ${id}`)
+    static delete = async (table, id) => DB.query(`UPDATE ${table} SET idDelete = '1' WHERE ID_${table} = ${id} AND idDelete = '0'`)
 
      // function updete based on DB.query
      // input:
@@ -58,7 +58,7 @@ export default class DB {
        value = this.#setQuote(value);
        if (fild.length === value.length) {
          const approp = fild.map((val, i) => `${val} = ${value[i]}`);
-         return DB.query(`UPDATE ${table} SET ${approp} WHERE id_${table} = ${id}`);
+         return DB.query(`UPDATE ${table} SET ${approp} WHERE id_${table} = ${id} AND idDelete = '0'`);
        }
        return 'Arrays are not equal';
      }

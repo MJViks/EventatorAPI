@@ -1,6 +1,6 @@
 import Router from 'koa-router'
 import config from '../../appConfig.json'
-import {deleteProduct} from '../api/delete'
+import {deleteProductController, deleteEventController, deleteProductGroupController} from '../controllers/delete'
 import errorHandler from './errorHandler'
 const router = new Router()
 
@@ -8,8 +8,7 @@ const version = '/' + config.api.version
 
 router.delete(version + '/deleteEvent', async(ctx)=>{
     try {
-    //    console.log(ctx.query.id); 
-    console.log(ctx.request.body);
+        ctx.body = await deleteEventController({...ctx.header})
     } catch (error) {
         errorHandler(ctx, error)
     }
@@ -17,18 +16,15 @@ router.delete(version + '/deleteEvent', async(ctx)=>{
 
 router.delete(version + '/deleteProductGroup', async(ctx)=>{
     try {
-    //    console.log(ctx.query.id); 
-    console.log(ctx.request.body);
+        ctx.body = await deleteProductGroupController({...ctx.query}, {...ctx.header})
     } catch (error) {
         errorHandler(ctx, error)
     }
 })
 
 router.delete(version + '/deleteProduct', async(ctx)=>{
-    try {
-    //    console.log(ctx.query.id); 
-    const result = await deleteProduct({...ctx.query})
-    ctx.body = result
+    try {        
+        ctx.body = await deleteProductController({...ctx.query}, {...ctx.header})
     } catch (error) {
         errorHandler(ctx, error)
     }

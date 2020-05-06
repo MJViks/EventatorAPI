@@ -4,4 +4,6 @@ export default (ctx, err) => {
     status: ctx.status,
     message: err.message
 };  
+console.log(err);
+
 }
