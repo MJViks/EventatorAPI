@@ -19,8 +19,13 @@ export default class Product{
 
 export const createProduct = async(name, price, count, description, buy, ProductGroupid) =>{
         let data = await DB.insert('Product', ['name', 'price', 'count', 'description', 'buy', 'productGroup_id'], [name, price, count, description, buy, ProductGroupid])
-        if(chResponse(data, 'Create product'))
-            return true
+        if(chResponse(data, 'Create product')){
+            data = await DB.query(`SELECT ident_current('Product') as id`)
+            if(chResponse(data, 'Create product')){        
+                data = data.recordset[0].id
+                return data
+            }
+        }
   }
   
   export const deleteProduct = async(id_Product) =>{

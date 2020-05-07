@@ -5,22 +5,22 @@ import {getUserByIdandEventId} from '../models/User'
 import {deleteEvent} from '../models/Event'
 import {getProductGroupById, deleteProductGroup} from '../models/ProductGroup'
 
-export const deleteProductController = async({idProduct, idUser},{['name-hash']: nameHash, ['code-hash']: codeHash, ['edit-pass-hash']: editPassHash}) =>  {  
+export const deleteProductController = async({idProduct, userId},{['name-hash']: nameHash, ['code-hash']: codeHash, ['edit-pass-hash']: editPassHash}) =>  {  
       try {  
-        idUser = +idUser
+        userId = +userId
         idProduct = +idProduct 
         //Checking data
-        if(idProduct !== 0 && idUser !== 0){  
+        if(idProduct !== 0 && userId !== 0){  
           //Get event and auth
           let event = await auth(1, nameHash, codeHash, editPassHash)
           //Check User in event
-          await getUserByIdandEventId(idUser, event.id)
+          await getUserByIdandEventId(userId, event.id)
            //Get product
           let product = await getProductById(idProduct)
            //delete product
           if(await deleteProduct(idProduct)){
             //Add log
-            await Log(idUser, 'Удалена группа ' + product.name)
+            await Log(userId, 'Удалена группа ' + product.name)
             return({
               //Server response
                 status: 200,
@@ -58,23 +58,23 @@ export const deleteEventController = async({['name-hash']: nameHash, ['code-hash
   }
 }
 
-export const deleteProductGroupController = async({idProductGroup, idUser}, 
+export const deleteProductGroupController = async({idProductGroup, userId}, 
   {['name-hash']: nameHash, ['code-hash']: codeHash, ['edit-pass-hash']: editPassHash}) =>  {
   try {  
-    idUser = +idUser
+    userId = +userId
     idProductGroup = +idProductGroup
     //Checking data
-    if(idProductGroup !== 0 && idUser !== 0){  
+    if(idProductGroup !== 0 && userId !== 0){  
       //Get event and auth
       let event = await auth(1, nameHash, codeHash, editPassHash)
       //Check User in event
-      await getUserByIdandEventId(idUser, event.id)
+      await getUserByIdandEventId(userId, event.id)
        //Get productGroup
       let productGroup = await getProductGroupById(idProductGroup)
        //delete productGroup
       if(await deleteProductGroup(idProductGroup)){
         //Add log
-        await Log(idUser, 'Удален ' + productGroup.name)
+        await Log(userId, 'Удален ' + productGroup.name)
         return({
           //Server response
             status: 200,

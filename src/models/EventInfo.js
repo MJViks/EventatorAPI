@@ -18,8 +18,13 @@ export default class EventInfo{
 
 export const createEventInfo = async(name, nameHash, date, limitations, description) =>{
         let data = await DB.insert('eventInfo', ['name', 'nameHash', 'date', 'limitations', 'description'], [name, nameHash, date, limitations, description])
-        if(chResponse(data, 'Create eventInfo'))
-            return true
+        if(chResponse(data, 'Create eventInfo')){
+            data = await DB.query(`SELECT ident_current('EventInfo') as id`)
+            if(chResponse(data, 'Create event info')){        
+                data = data.recordset[0].id
+                return data
+            }
+        }
   }
   
   export const deleteEventInfo = async(id_EventInfo) =>{
@@ -35,10 +40,3 @@ export const createEventInfo = async(name, nameHash, date, limitations, descript
             return new EventInfo(id_EventInfo, name, nameHash, date, limitations, description)
         }
   }
-  export const getEventInfoLastId = async() =>{
-    let data = await DB.query(`SELECT ident_current('EventInfo') as id`)
-    if(chResponse(data, 'Update eventInfo')){
-        data = data.recordset[0].id
-        return data
-    }
-}

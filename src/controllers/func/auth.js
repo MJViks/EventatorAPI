@@ -2,6 +2,13 @@ import {getEventAuthAdmin, getEventAuthEdit, getEventAuth} from '../../models/Ev
 
 export const auth = async(mode, nameHash, codeHash, PassHash) =>  {
         mode = +mode
+        if(typeof nameHash != 'string')
+            throw new Error('Invalid data')
+        if(typeof codeHash != 'string')
+            throw new Error('Invalid data')
+        if(PassHash != undefined && typeof PassHash != 'string')
+            throw new Error('Invalid data')
+            
          switch (mode) {
              case 0:
                 if(nameHash.length === 64 && codeHash.length === 64){
@@ -35,4 +42,5 @@ export const auth = async(mode, nameHash, codeHash, PassHash) =>  {
                  throw new Error('Non existing identification method')
                  break;
          }
-}     
+} 
+

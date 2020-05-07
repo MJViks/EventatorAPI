@@ -15,8 +15,13 @@ export default class User{
 
 export const createUser = async(name, event_id) =>{
         let data = await DB.insert('User', ['name', 'event_id'], [name, event_id])        
-        if(chResponse(data, 'Create user'))
-            return true
+        if(chResponse(data, 'Create user')){
+            data = await DB.query(`SELECT ident_current('User') as id`)
+            if(chResponse(data, 'Create user')){        
+                data = data.recordset[0].id
+                return data
+            }
+        }
   }
   
   export const deleteUser = async(id_User) =>{
@@ -45,7 +50,9 @@ export const createUser = async(name, event_id) =>{
 
 export const getUserByIdandEventId = async(idUser, idEvent) =>{
     let data = await DB.query(`select id_User, name, event_id from [User] where id_User = '${idUser}' AND Event_id = '${idEvent}' AND [User].idDelete = '0'`)
-    if(chResponse(data, 'Get user in event')){
+    if(chResponse(data, 'No user in event')){
+        
+      console.log(data);
         data = data.recordset[0]
         return new User(data.id_User, data.name, data.event_id)
     }

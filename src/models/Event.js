@@ -20,8 +20,14 @@ export default class Event{
 
 export const createEvent = async(adminPassHash, eventInfo_id, editPassHash, code, codeHash) =>{
       let data = await DB.insert('event', ['adminPassHash', 'eventInfo_id', 'editPassHash', 'id', 'idHash'], [adminPassHash, eventInfo_id, editPassHash, code, codeHash])
-      if(chResponse(data, 'Create event'))
-        return true
+      if(chResponse(data, 'Create event')){
+        data = await DB.query(`SELECT ident_current('Event') as id`)
+        if(chResponse(data, 'Create event')){        
+            data = data.recordset[0].id
+            return data
+        }
+      }
+      
 }
 
 export const deleteEvent = async(id_Event) =>{

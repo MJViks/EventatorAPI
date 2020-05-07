@@ -17,8 +17,13 @@ export default class Log{
 
 export const createLog = async(action, user_id) =>{
         let data = await DB.insert('Log', ['date', 'time', 'action', 'user_id'], [getDate(), getTime(), action, user_id])
-        if(chResponse(data, 'Create Log'))
-            return true
+        if(chResponse(data, 'Create Log')){
+            data = await DB.query(`SELECT ident_current('Log') as id`)
+            if(chResponse(data, 'Create log')){        
+                data = data.recordset[0].id
+                return data
+            }
+        }
   }
   
   export const deleteLog = async(id_Log) =>{
