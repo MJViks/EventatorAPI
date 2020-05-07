@@ -1,23 +1,22 @@
 import Router from 'koa-router'
 import config from '../../appConfig.json'
 import errorHandler from './errorHandler'
+import {createUserController, createEventController, createProductGroupController, createProductController} from '../controllers/post'
 const router = new Router()
 
 const version = '/' + config.api.version
 
 router.post(version + '/createUser', async(ctx)=>{
-    try {
-    //    console.log(ctx.query.id); 
-    console.log(ctx.request.body);
+    try {        
+       ctx.body = await createUserController({...ctx.request.body}, {...ctx.header})
     } catch (error) {
         errorHandler(ctx, error)
     }
 })
 
 router.post(version + '/createEvent', async(ctx)=>{
-    try {
-    //    console.log(ctx.query.id); 
-    console.log(ctx.request.body);
+    try { 
+        ctx.body = await createEventController({...ctx.request.body}, {...ctx.header})
     } catch (error) {
         errorHandler(ctx, error)
     }
@@ -25,17 +24,15 @@ router.post(version + '/createEvent', async(ctx)=>{
 
 router.post(version + '/createProductGroup', async(ctx)=>{
     try {
-    //    console.log(ctx.query.id); 
-    console.log(ctx.request.body);
+        ctx.body = await createProductGroupController({...ctx.request.body}, {...ctx.header})
     } catch (error) {
         errorHandler(ctx, error)
     }
 })
 
 router.post(version + '/createProduct', async(ctx)=>{
-    try {
-    //    console.log(ctx.query.id); 
-    console.log(ctx.request.body);
+    try { 
+        ctx.body = await createProductController({...ctx.request.body}, {...ctx.header})
     } catch (error) {
         errorHandler(ctx, error)
     }

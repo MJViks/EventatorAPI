@@ -6,8 +6,6 @@ export const auth = async(mode, nameHash, codeHash, PassHash) =>  {
              case 0:
                 if(nameHash.length === 64 && codeHash.length === 64){
                     let event = await getEventAuth(nameHash, codeHash)
-                    console.log(event);
-                    
                    if(event.id > 0)
                     return event
                }

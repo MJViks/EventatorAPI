@@ -33,6 +33,7 @@ export default class DB {
     // input:
     // arr: arr[string]
     static #setQuote = (arr) => arr.map((val) => {
+      if (val === null) return 'null'
       if (typeof val === 'string') return `'${val}'`;
       return val;
     })
@@ -42,14 +43,15 @@ export default class DB {
     // table: string, fild: arr[string], value: arr[string]
     static insert = async (table, fild, value) => {
       value = this.#setQuote(value);
-      if (fild.length === value.length) { return DB.query(`INSERT INTO ${table} (${fild}) VALUES (${value})`); }
+      
+      if (fild.length === value.length) { return DB.query(`INSERT INTO [${table}] (${fild}) VALUES (${value})`); }
       return 'Arrays are not equal';
     }
 
     // function delete based on DB.query
     // input:
     // table: string, id: int
-    static delete = async (table, id) => DB.query(`UPDATE ${table} SET idDelete = '1' WHERE ID_${table} = ${id} AND idDelete = '0'`)
+    static delete = async (table, id) => DB.query(`UPDATE [${table}] SET idDelete = '1' WHERE ID_${table} = ${id} AND idDelete = '0'`)
 
      // function updete based on DB.query
      // input:
@@ -58,7 +60,7 @@ export default class DB {
        value = this.#setQuote(value);
        if (fild.length === value.length) {
          const approp = fild.map((val, i) => `${val} = ${value[i]}`);
-         return DB.query(`UPDATE ${table} SET ${approp} WHERE id_${table} = ${id} AND idDelete = '0'`);
+         return DB.query(`UPDATE [${table}] SET ${approp} WHERE id_${table} = ${id} AND idDelete = '0'`);
        }
        return 'Arrays are not equal';
      }

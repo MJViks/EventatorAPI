@@ -35,3 +35,10 @@ export const createEventInfo = async(name, nameHash, date, limitations, descript
             return new EventInfo(id_EventInfo, name, nameHash, date, limitations, description)
         }
   }
+  export const getEventInfoLastId = async() =>{
+    let data = await DB.query(`SELECT ident_current('EventInfo') as id`)
+    if(chResponse(data, 'Update eventInfo')){
+        data = data.recordset[0].id
+        return data
+    }
+}

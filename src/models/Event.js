@@ -19,7 +19,7 @@ export default class Event{
 }
 
 export const createEvent = async(adminPassHash, eventInfo_id, editPassHash, code, codeHash) =>{
-      let data = await DB.insert('event', ['adminPassHash', 'eventInfo_id', 'editPassHash', 'code', 'codeHash'], [adminPassHash, eventInfo_id, editPassHash, code, codeHash])
+      let data = await DB.insert('event', ['adminPassHash', 'eventInfo_id', 'editPassHash', 'id', 'idHash'], [adminPassHash, eventInfo_id, editPassHash, code, codeHash])
       if(chResponse(data, 'Create event'))
         return true
 }
@@ -31,7 +31,7 @@ export const deleteEvent = async(id_Event) =>{
 }
 
 export const updateEvent = async(id_Event, adminPassHash, eventInfo_id, editPassHash, code, codeHash) =>{
-    let data = await DB.update('event', id_Event, ['adminPassHash', 'eventInfo_id', 'editPassHash', 'code', 'codeHash'], [adminPassHash, eventInfo_id, editPassHash, code, codeHash])
+    let data = await DB.update('event', id_Event, ['adminPassHash', 'eventInfo_id', 'editPassHash', 'id', 'idHash'], [adminPassHash, eventInfo_id, editPassHash, code, codeHash])
     if(chResponse(data, 'Update event')){
       data = data.recordset[0]
       return new Event(id_Event, adminPassHash, eventInfo_id, editPassHash, code, codeHash)

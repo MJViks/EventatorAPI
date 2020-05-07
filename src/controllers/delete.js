@@ -50,7 +50,7 @@ export const deleteEventController = async({['name-hash']: nameHash, ['code-hash
           })
       }
     else
-      throw new Error('Product delete error. Invalid input data.')
+      throw new Error('Event delete error. Invalid input data.')
       
   } catch (err) {
     //Error return
@@ -83,7 +83,7 @@ export const deleteProductGroupController = async({idProductGroup, idUser},
       }
     }
     else
-      throw new Error('Product delete error. Invalid input data.')
+      throw new Error('Product group delete error. Invalid input data.')
       
   } catch (err) {
     //Error return
