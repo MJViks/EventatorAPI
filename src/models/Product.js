@@ -37,8 +37,7 @@ export const createProduct = async(name, price, count, description, buy, Product
   export const updateProduct = async(idProduct, name, price, count, description, buy, ProductGroupid) =>{
         let data =  await DB.update('Product', idProduct, ['name', 'price', 'count', 'description', 'buy', 'productGroup_id'], [name, price, count, description, buy, ProductGroupid])
         if(chResponse(data, 'Update product')){
-            data = data.recordset[0]
-            return new Product(id_Product, name, price, count, description, buy, productGroup_id)
+            return new Product(idProduct, name, price, count, description, buy, ProductGroupid)
         }
   }
 
@@ -47,5 +46,12 @@ export const createProduct = async(name, price, count, description, buy, Product
     if(chResponse(data, 'Get product')){
         data = data.recordset[0]
         return new Product(data.id_Product, data.name, data.price, data.count, data.description, data.buy, data.productGroup_id)
+    }
+}
+
+export const setProductBuy = async(idProduct, buy) =>{
+    let data =  await DB.update('Product', idProduct, ['buy'], [buy])
+    if(chResponse(data, 'Update product')){
+        return await getProductById(idProduct)
     }
 }

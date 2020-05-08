@@ -39,7 +39,6 @@ export const deleteEvent = async(id_Event) =>{
 export const updateEvent = async(id_Event, adminPassHash, eventInfo_id, editPassHash, code, codeHash) =>{
     let data = await DB.update('event', id_Event, ['adminPassHash', 'eventInfo_id', 'editPassHash', 'id', 'idHash'], [adminPassHash, eventInfo_id, editPassHash, code, codeHash])
     if(chResponse(data, 'Update event')){
-      data = data.recordset[0]
       return new Event(id_Event, adminPassHash, eventInfo_id, editPassHash, code, codeHash)
     }
 }
@@ -85,5 +84,19 @@ export const getEventAuth = async(nameHash, codeHash) =>{
       data = data.recordset[0]
       return new Event(data.id_Event, data.adminPassHash, data.eventInfo_id, data.editPassHash, data.id, data.idHash)
     }
+}
+
+export const updateEditPassEvent = async(id_Event, editPassHash) =>{
+  let data = await DB.update('event', id_Event, ['editPassHash'], [editPassHash])
+  if(chResponse(data, 'Update event edit pass')){
+    return true
+  }
+}
+
+export const updateAdminPassEvent = async(id_Event, adminPassHash) =>{
+  let data = await DB.update('event', id_Event, ['adminPassHash'], [adminPassHash])
+  if(chResponse(data, 'Update event admin pass')){
+    return true
+  }
 }
 

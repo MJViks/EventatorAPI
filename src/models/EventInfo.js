@@ -36,7 +36,14 @@ export const createEventInfo = async(name, nameHash, date, limitations, descript
   export const updateEventInfo = async(id_EventInfo, name, nameHash, date, limitations, description) =>{
         let data = await DB.update('eventInfo', id_EventInfo, ['name', 'nameHash', 'date', 'limitations', 'description'], [name, nameHash, date, limitations, description])
         if(chResponse(data, 'Update eventInfo')){
-            data = data.recordset[0]
-            return new EventInfo(id_EventInfo, name, nameHash, date, limitations, description)
+            return getEventInfoById(id_EventInfo)
         }
   }
+
+  export const getEventInfoById = async(idEventInfo) =>{
+    let data = await DB.query(`select id_EventInfo, name, nameHash, date, limitations, description from [EventInfo] where id_EventInfo = '${idEventInfo}' AND [EventInfo].idDelete = '0'`)
+    if(chResponse(data, 'Get EventInfo')){
+        data = data.recordset[0]
+        return new EventInfo(data.id_EventInfo, data.name, data.nameHash, data.date, data.limitations, data.description)
+    }
+}

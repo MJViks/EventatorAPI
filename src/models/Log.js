@@ -35,7 +35,6 @@ export const createLog = async(action, user_id) =>{
   export const updateLog = async(id_Log, date, time, action, user_id) =>{
         let data = await DB.update('Log', id_Log, ['date', 'time', 'action', 'user_id'], [date, time, action, user_id])
         if(chResponse(data, 'Update Log')){
-            data = data.recordset[0]
             return new Log(id_Log, date, time, action, user_id)
         }
   }

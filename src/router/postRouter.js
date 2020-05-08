@@ -6,7 +6,7 @@ const router = new Router()
 
 const version = '/' + config.api.version
 
-router.post(version + '/createUser', async(ctx)=>{
+router.post(version + '/User', async(ctx)=>{
     try {        
        ctx.body = await createUserController({...ctx.request.body}, {...ctx.header})
     } catch (error) {
@@ -14,7 +14,7 @@ router.post(version + '/createUser', async(ctx)=>{
     }
 })
 
-router.post(version + '/createEvent', async(ctx)=>{
+router.post(version + '/Event', async(ctx)=>{
     try { 
         ctx.body = await createEventController({...ctx.request.body}, {...ctx.header})
     } catch (error) {
@@ -22,7 +22,7 @@ router.post(version + '/createEvent', async(ctx)=>{
     }
 })
 
-router.post(version + '/createProductGroup', async(ctx)=>{
+router.post(version + '/ProductGroup', async(ctx)=>{
     try {
         ctx.body = await createProductGroupController({...ctx.request.body}, {...ctx.header})
     } catch (error) {
@@ -30,7 +30,7 @@ router.post(version + '/createProductGroup', async(ctx)=>{
     }
 })
 
-router.post(version + '/createProduct', async(ctx)=>{
+router.post(version + '/Product', async(ctx)=>{
     try { 
         ctx.body = await createProductController({...ctx.request.body}, {...ctx.header})
     } catch (error) {

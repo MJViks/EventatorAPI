@@ -5,7 +5,6 @@ export default async(idUser, action) =>  {
         
         if(typeof action === "string" && action.length > 0){
            let user = await getUserById(idUser)
-                
             if(user)
                 await createLog(user.name + ' -> ' + action, user.id)
         }

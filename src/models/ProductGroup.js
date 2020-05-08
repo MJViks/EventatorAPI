@@ -33,8 +33,7 @@ export const createProductGroup = async(name, event_id, description) =>{
   
   export const updateProductGroup = async(id_ProductGroup, name, event_id, description) =>{
         let data = await DB.update('ProductGroup', id_ProductGroup, ['name', 'event_id', 'description'], [name, event_id, description])
-        if(chResponse(data, 'Update product group')){
-            data = data.recordset[0]
+        if(chResponse(data, 'Update product group')){          
             return new ProductGroup(id_ProductGroup, name, event_id, description)
         }
 

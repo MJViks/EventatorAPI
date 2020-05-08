@@ -6,7 +6,7 @@ const router = new Router()
 
 const version = '/' + config.api.version
 
-router.delete(version + '/deleteEvent', async(ctx)=>{
+router.delete(version + '/Event', async(ctx)=>{
     try {
         ctx.body = await deleteEventController({...ctx.header})
     } catch (error) {
@@ -14,7 +14,7 @@ router.delete(version + '/deleteEvent', async(ctx)=>{
     }
 })
 
-router.delete(version + '/deleteProductGroup', async(ctx)=>{
+router.delete(version + '/ProductGroup', async(ctx)=>{
     try {
         ctx.body = await deleteProductGroupController({...ctx.query}, {...ctx.header})
     } catch (error) {
@@ -22,7 +22,7 @@ router.delete(version + '/deleteProductGroup', async(ctx)=>{
     }
 })
 
-router.delete(version + '/deleteProduct', async(ctx)=>{
+router.delete(version + '/Product', async(ctx)=>{
     try {        
         ctx.body = await deleteProductController({...ctx.query}, {...ctx.header})
     } catch (error) {

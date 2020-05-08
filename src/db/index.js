@@ -44,23 +44,33 @@ export default class DB {
     static insert = async (table, fild, value) => {
       value = this.#setQuote(value);
       
-      if (fild.length === value.length) { return DB.query(`INSERT INTO [${table}] (${fild}) VALUES (${value})`); }
+      if (fild.length === value.length) { return await DB.query(`INSERT INTO [${table}] (${fild}) VALUES (${value})`); }
       return 'Arrays are not equal';
     }
 
     // function delete based on DB.query
     // input:
     // table: string, id: int
-    static delete = async (table, id) => DB.query(`UPDATE [${table}] SET idDelete = '1' WHERE ID_${table} = ${id} AND idDelete = '0'`)
+    static delete = async (table, id) => {
+      let idDelete = await DB.query(`select idDelete from ${table} where id_${table} = ${id}`)
+        if(idDelete.recordset[0].idDelete)
+          throw new Error('No table exists.')
+          
+          
+      await DB.query(`UPDATE [${table}] SET idDelete = '1' WHERE ID_${table} = ${id} AND idDelete = '0'`)
+    }
 
      // function updete based on DB.query
      // input:
      // table: string, id: int, fild: arr[string], value: arr[string]
      static update = async (table, id, fild, value) => {
        value = this.#setQuote(value);
+       let idDelete = await DB.query(`select idDelete from ${table} where id_${table} = ${id}`)
+        if(idDelete.recordset[0].idDelete)
+          throw new Error('No table exists.')
        if (fild.length === value.length) {
          const approp = fild.map((val, i) => `${val} = ${value[i]}`);
-         return DB.query(`UPDATE [${table}] SET ${approp} WHERE id_${table} = ${id} AND idDelete = '0'`);
+         return await DB.query(`UPDATE [${table}] SET ${approp} WHERE id_${table} = ${id} AND idDelete = '0'`);
        }
        return 'Arrays are not equal';
      }

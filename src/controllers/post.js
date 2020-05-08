@@ -27,11 +27,7 @@ export const createUserController = async({name},{['name-hash']: nameHash, ['cod
             //Server response
               status: 200,
               sucses: 'ok',
-              user: {
-                id: user.id,
-                name: user.name,
-                eventId: user.event_id
-              }
+              user
             })
         }
     } catch (err) {
@@ -113,7 +109,8 @@ export const createEventController = async({name,  description, limitations, dat
                 },
                 event:{
                     id: idEvent,
-                    code: code
+                    code: code,
+                    codeHash: codeHash
                 }
               })
       } catch (err) {

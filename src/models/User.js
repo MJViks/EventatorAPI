@@ -35,7 +35,6 @@ export const createUser = async(name, event_id) =>{
   export const updateUser = async(id_User, name, event_id) =>{
         let data = await DB.update('User', id_User, ['id_User','name', 'event_id'], [id_User,name, event_id])
         if(chResponse(data, 'Update user')){
-            data = data.recordset[0]
             return new User(id_User, name, event_id)
         }
   }
@@ -51,8 +50,6 @@ export const createUser = async(name, event_id) =>{
 export const getUserByIdandEventId = async(idUser, idEvent) =>{
     let data = await DB.query(`select id_User, name, event_id from [User] where id_User = '${idUser}' AND Event_id = '${idEvent}' AND [User].idDelete = '0'`)
     if(chResponse(data, 'No user in event')){
-        
-      console.log(data);
         data = data.recordset[0]
         return new User(data.id_User, data.name, data.event_id)
     }

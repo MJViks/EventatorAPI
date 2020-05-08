@@ -10,7 +10,7 @@ router.get(version + '/', async(ctx, next) =>{
     ctx.body = 'Hello World!'
 })
 
-router.get(version + '/getEventInfo', async(ctx)=>{
+router.get(version + '/EventInfo', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
@@ -19,7 +19,7 @@ router.get(version + '/getEventInfo', async(ctx)=>{
     }
 })
 
-router.get(version + '/getProductGroupsInfo', async(ctx)=>{
+router.get(version + '/ProductGroupsInfo', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
@@ -28,7 +28,7 @@ router.get(version + '/getProductGroupsInfo', async(ctx)=>{
     }
 })
 
-router.get(version + '/getProductGroupInfo', async(ctx)=>{
+router.get(version + '/ProductGroupInfo', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
@@ -37,7 +37,7 @@ router.get(version + '/getProductGroupInfo', async(ctx)=>{
     }
 })
 
-router.get(version + '/getProducts', async(ctx)=>{
+router.get(version + '/Products', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
@@ -46,7 +46,7 @@ router.get(version + '/getProducts', async(ctx)=>{
     }
 })
 
-router.get(version + '/getProduct', async(ctx)=>{
+router.get(version + '/Product', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
@@ -55,7 +55,7 @@ router.get(version + '/getProduct', async(ctx)=>{
     }
 })
 
-router.get(version + '/getProductsByGroup', async(ctx)=>{
+router.get(version + '/ProductsByGroup', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
@@ -64,7 +64,7 @@ router.get(version + '/getProductsByGroup', async(ctx)=>{
     }
 })
 
-router.get(version + '/getLogs', async(ctx)=>{
+router.get(version + '/Logs', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
@@ -73,7 +73,7 @@ router.get(version + '/getLogs', async(ctx)=>{
     }
 })
 
-router.get(version + '/getUsers', async(ctx)=>{
+router.get(version + '/Users', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
@@ -82,7 +82,7 @@ router.get(version + '/getUsers', async(ctx)=>{
     }
 })
 
-router.get(version + '/getStatsByGroup', async(ctx)=>{
+router.get(version + '/StatsByGroup', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
@@ -91,7 +91,7 @@ router.get(version + '/getStatsByGroup', async(ctx)=>{
     }
 })
 
-router.get(version + '/getStatsByEvent', async(ctx)=>{
+router.get(version + '/StatsByEvent', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
@@ -100,7 +100,7 @@ router.get(version + '/getStatsByEvent', async(ctx)=>{
     }
 })
 
-router.get(version + '/getStatsByUser', async(ctx)=>{
+router.get(version + '/StatsByUser', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
