@@ -52,12 +52,10 @@ export default class DB {
     // input:
     // table: string, id: int
     static delete = async (table, id) => {
-      let idDelete = await DB.query(`select idDelete from ${table} where id_${table} = ${id}`)
-        if(idDelete.recordset[0].idDelete)
+      let isDelete = await DB.query(`select isDelete from ${table} where id${table} = ${id}`)
+        if(isDelete.recordset[0].isDelete)
           throw new Error('No table exists.')
-          
-          
-      await DB.query(`UPDATE [${table}] SET idDelete = '1' WHERE ID_${table} = ${id} AND idDelete = '0'`)
+      return await DB.query(`UPDATE [${table}] SET isDelete = '1' WHERE id${table} = ${id} AND isDelete = '0'`)
     }
 
      // function updete based on DB.query
@@ -65,12 +63,12 @@ export default class DB {
      // table: string, id: int, fild: arr[string], value: arr[string]
      static update = async (table, id, fild, value) => {
        value = this.#setQuote(value);
-       let idDelete = await DB.query(`select idDelete from ${table} where id_${table} = ${id}`)
-        if(idDelete.recordset[0].idDelete)
+       let isDelete = await DB.query(`select isDelete from ${table} where id${table} = ${id}`)
+        if(isDelete.recordset[0].isDelete)
           throw new Error('No table exists.')
        if (fild.length === value.length) {
          const approp = fild.map((val, i) => `${val} = ${value[i]}`);
-         return await DB.query(`UPDATE [${table}] SET ${approp} WHERE id_${table} = ${id} AND idDelete = '0'`);
+         return await DB.query(`UPDATE [${table}] SET ${approp} WHERE id${table} = ${id} AND isDelete = '0'`);
        }
        return 'Arrays are not equal';
      }

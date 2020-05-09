@@ -23,7 +23,7 @@ router.delete(version + '/ProductGroup', async(ctx)=>{
 })
 
 router.delete(version + '/Product', async(ctx)=>{
-    try {        
+    try {       
         ctx.body = await deleteProductController({...ctx.query}, {...ctx.header})
     } catch (error) {
         errorHandler(ctx, error)

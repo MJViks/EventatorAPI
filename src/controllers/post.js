@@ -103,6 +103,7 @@ export const createEventController = async({name,  description, limitations, dat
                 eventInfo:{
                     id: idEventInfo,
                     name: name,
+                    nameHash: nameHash,
                     date: date,
                     limitations: limitations,
                     description: description
@@ -162,16 +163,16 @@ export const createProductGroupController = async({name, description, userId},{[
       }
 }
 
-export const createProductController = async({name, price, count, description, ProductGroupId, userId},
+export const createProductController = async({name, price, count, description, productGroupId, userId},
     {['name-hash']: nameHash, ['code-hash']: codeHash, ['edit-pass-hash']: editPassHash}) =>  {
     try {
         //Checking data
         userId = +userId
-        ProductGroupId = +ProductGroupId
+        productGroupId = +productGroupId
         price = +price
         count = +count
         
-        if(userId == NaN || ProductGroupId == NaN || price == NaN || count == NaN)
+        if(isNaN(userId) || isNaN(productGroupId) || isNaN(price) || isNaN(count))
             throw new Error('One of the numerical values ​​is not a number.')
         count = Math.ceil(count)
 
@@ -190,7 +191,7 @@ export const createProductController = async({name, price, count, description, P
           let event = await auth(1, nameHash, codeHash, editPassHash)
           await getUserByIdandEventId(userId, event.id)
            //add product group
-            let ProductId = await createProduct(name, price, count, description, '0', ProductGroupId)          
+            let ProductId = await createProduct(name, price, count, description, '0', productGroupId)          
             //Add log
             await Log(userId, 'Создан товар ' + name)
             
@@ -205,7 +206,7 @@ export const createProductController = async({name, price, count, description, P
                   const: count,
                   buy: 0,
                   description: description,
-                  ProductGroupId: ProductGroupId
+                  productGroupId: productGroupId
                 }
               })
           

@@ -1,9 +1,8 @@
-export default (data, moduleName) =>{    
-  
+export default (data, moduleName) =>{  
     //Response test
     if(data.rowsAffected)
     //Check for the number of responses
-      if(data.rowsAffected[0] > 0)
+      if(data.rowsAffected[0] >= 0)
       //Saving Product Name
         return true
       else

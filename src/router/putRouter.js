@@ -8,7 +8,7 @@ const router = new Router()
 
 const version = '/' + config.api.version
 
-router.put(version + '/ProductBuy', async(ctx)=>{
+router.put(version + '/setBuy', async(ctx)=>{
     try {
         ctx.body = await setProductBuyController({...ctx.request.body}, {...ctx.header})
     } catch (error) {

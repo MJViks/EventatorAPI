@@ -5,20 +5,21 @@ import {getUserByIdandEventId} from '../models/User'
 import {deleteEvent} from '../models/Event'
 import {getProductGroupById, deleteProductGroup} from '../models/ProductGroup'
 
-export const deleteProductController = async({idProduct, userId},{['name-hash']: nameHash, ['code-hash']: codeHash, ['edit-pass-hash']: editPassHash}) =>  {  
+export const deleteProductController = async({id, userId},{['name-hash']: nameHash, ['code-hash']: codeHash, ['edit-pass-hash']: editPassHash}) =>  {  
       try {  
         userId = +userId
-        idProduct = +idProduct 
+        id = +id 
         //Checking data
-        if(idProduct !== 0 && userId !== 0){  
+        if(id !== 0 && userId !== 0){  
           //Get event and auth
           let event = await auth(1, nameHash, codeHash, editPassHash)
           //Check User in event
           await getUserByIdandEventId(userId, event.id)
            //Get product
-          let product = await getProductById(idProduct)
+          let product = await getProductById(id)
+          
            //delete product
-          if(await deleteProduct(idProduct)){
+          if(await deleteProduct(product.id)){
             //Add log
             await Log(userId, 'Удалена группа ' + product.name)
             return({
@@ -58,21 +59,21 @@ export const deleteEventController = async({['name-hash']: nameHash, ['code-hash
   }
 }
 
-export const deleteProductGroupController = async({idProductGroup, userId}, 
+export const deleteProductGroupController = async({id, userId}, 
   {['name-hash']: nameHash, ['code-hash']: codeHash, ['edit-pass-hash']: editPassHash}) =>  {
   try {  
     userId = +userId
-    idProductGroup = +idProductGroup
+    id = +id
     //Checking data
-    if(idProductGroup !== 0 && userId !== 0){  
+    if(id !== 0 && userId !== 0){  
       //Get event and auth
       let event = await auth(1, nameHash, codeHash, editPassHash)
       //Check User in event
       await getUserByIdandEventId(userId, event.id)
        //Get productGroup
-      let productGroup = await getProductGroupById(idProductGroup)
+      let productGroup = await getProductGroupById(id)
        //delete productGroup
-      if(await deleteProductGroup(idProductGroup)){
+      if(await deleteProductGroup(id)){
         //Add log
         await Log(userId, 'Удален ' + productGroup.name)
         return({

@@ -3,11 +3,11 @@ import {getEventAuthAdmin, getEventAuthEdit, getEventAuth} from '../../models/Ev
 export const auth = async(mode, nameHash, codeHash, PassHash) =>  {
         mode = +mode
         if(typeof nameHash != 'string')
-            throw new Error('Invalid data')
+            throw new Error('Invalid auth data')
         if(typeof codeHash != 'string')
-            throw new Error('Invalid data')
+            throw new Error('Invalid auth data')
         if(PassHash != undefined && typeof PassHash != 'string')
-            throw new Error('Invalid data')
+            throw new Error('Invalid auth data')
             
         if(PassHash != undefined)
             PassHash.trim()
@@ -36,6 +36,7 @@ export const auth = async(mode, nameHash, codeHash, PassHash) =>  {
              case 2:
                 if(nameHash.length === 64 && codeHash.length === 64 && PassHash.length === 64){
                     let event = await getEventAuthAdmin(nameHash, codeHash, PassHash)
+                    
                     if(event.id > 0)
                         return event
                 } 

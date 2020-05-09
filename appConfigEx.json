@@ -11,6 +11,7 @@
       }
   },
   "api": {
-      "version": "v1"
+      "version": "v1",
+      "getConstreint": 500
   }
 }

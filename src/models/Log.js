@@ -2,21 +2,17 @@ import DB from '../db'
 import chResponse from '../db/chDbResponse'
 
 export default class Log{
-    #id;
-    constructor(id, date, time, action, user_id){
-        this.#id = id;
+    constructor(id, date, time, action, userId){
+        this.id = id;
         this.time = time;
         this.action = action;
         this.date = date;
-        this.user_id = user_id;
+        this.userId = userId;
     }
-    get id(){
-        return this.#id;
-      }
 }
 
-export const createLog = async(action, user_id) =>{
-        let data = await DB.insert('Log', ['date', 'time', 'action', 'user_id'], [getDate(), getTime(), action, user_id])
+export const createLog = async(action, userId) =>{
+        let data = await DB.insert('Log', ['date', 'time', 'action', 'userId'], [getDate(), getTime(), action, userId])
         if(chResponse(data, 'Create Log')){
             data = await DB.query(`SELECT ident_current('Log') as id`)
             if(chResponse(data, 'Create log')){        
@@ -26,16 +22,16 @@ export const createLog = async(action, user_id) =>{
         }
   }
   
-  export const deleteLog = async(id_Log) =>{
-        let data = await DB.delete('Log', id_Log)
+  export const deleteLog = async(idLog) =>{
+        let data = await DB.delete('Log', idLog)
         if(chResponse(data, 'Delete Log'))
             return true
   }
   
-  export const updateLog = async(id_Log, date, time, action, user_id) =>{
-        let data = await DB.update('Log', id_Log, ['date', 'time', 'action', 'user_id'], [date, time, action, user_id])
+  export const updateLog = async(idLog, date, time, action, userId) =>{
+        let data = await DB.update('Log', idLog, ['date', 'time', 'action', 'userId'], [date, time, action, userId])
         if(chResponse(data, 'Update Log')){
-            return new Log(id_Log, date, time, action, user_id)
+            return new Log(idLog, date, time, action, userId)
         }
   }
 
@@ -51,4 +47,34 @@ const getTime = () =>{
 
 const setZiro = (num) =>{
     return num.toString().length < 2 ? `0${num}` : num
+}
+
+export const getLogsByEventId = async(eventId, count) =>{
+    let data = await DB.query(`select TOP ${count} idLog, [Log].date, time, action from Log 
+    join [User] on UserId = idUser
+    where eventId = '${eventId}' AND [Log].isDelete = '0'`)
+    if(chResponse(data, 'Get Logs')){
+        let answer = {}
+        
+        data.recordset.forEach((element, i) => {
+            answer[i] = element
+            
+        });
+        return answer
+    }
+}
+
+export const getLogsByUserId = async(userId, count) =>{       
+    let data =  await DB.query(`select TOP ${count} idLog, [Log].date, time, action
+    from [Log] join [User] on UserId = idUser
+     where userId = '${userId}' AND [Log].isDelete = '0'`)
+    if(chResponse(data, 'Get Users')){   
+        
+        let answer = {}
+        data.recordset.forEach((element, i) => {
+            answer[i] = element
+            
+        });
+        return answer
+    }
 }

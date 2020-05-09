@@ -2,18 +2,14 @@ import DB from '../db'
 import chResponse from '../db/chDbResponse'
 
 export default class EventInfo{
-    #id;
     constructor(id, name, nameHash, date, limitations, description){
-        this.#id = id;
+        this.id = id;
         this.name = name;
         this.nameHash = nameHash;
         this.date = date;
         this.limitations = limitations;
         this.description = description;
     }
-    get id(){
-        return this.#id;
-      }
 }
 
 export const createEventInfo = async(name, nameHash, date, limitations, description) =>{
@@ -27,23 +23,33 @@ export const createEventInfo = async(name, nameHash, date, limitations, descript
         }
   }
   
-  export const deleteEventInfo = async(id_EventInfo) =>{
-        let data = await DB.delete('eventInfo', id_EventInfo)
+  export const deleteEventInfo = async(idEventInfo) =>{
+        let data = await DB.delete('eventInfo', idEventInfo)
         if(chResponse(data, 'Delete eventInfo'))
             return true
   }
   
-  export const updateEventInfo = async(id_EventInfo, name, nameHash, date, limitations, description) =>{
-        let data = await DB.update('eventInfo', id_EventInfo, ['name', 'nameHash', 'date', 'limitations', 'description'], [name, nameHash, date, limitations, description])
+  export const updateEventInfo = async(idEventInfo, name, nameHash, date, limitations, description) =>{
+        let data = await DB.update('eventInfo', idEventInfo, ['name', 'nameHash', 'date', 'limitations', 'description'], [name, nameHash, date, limitations, description])
         if(chResponse(data, 'Update eventInfo')){
-            return getEventInfoById(id_EventInfo)
+            return getEventInfoById(idEventInfo)
         }
   }
 
   export const getEventInfoById = async(idEventInfo) =>{
-    let data = await DB.query(`select id_EventInfo, name, nameHash, date, limitations, description from [EventInfo] where id_EventInfo = '${idEventInfo}' AND [EventInfo].idDelete = '0'`)
+    let data = await DB.query(`select idEventInfo, name, nameHash, date, limitations, description from [EventInfo] where idEventInfo = '${idEventInfo}' 
+    AND [EventInfo].isDelete = '0'`)
     if(chResponse(data, 'Get EventInfo')){
         data = data.recordset[0]
-        return new EventInfo(data.id_EventInfo, data.name, data.nameHash, data.date, data.limitations, data.description)
+        return new EventInfo(data.idEventInfo, data.name, data.nameHash, data.date, data.limitations, data.description)
+    }
+}
+
+export const getEventInfoByEventId = async(eventId) =>{
+    let data = await DB.query(`select idEventInfo, name, nameHash, date, limitations, description from [Event]
+    join [EventInfo] on EventInfoId = idEventInfo where idEvent = '${eventId}' AND [EventInfo].isDelete = '0'`)
+    if(chResponse(data, 'Get EventInfo')){
+        data = data.recordset[0]
+        return new EventInfo(data.idEventInfo, data.name, data.nameHash, data.date, data.limitations, data.description)
     }
 }

@@ -3,12 +3,12 @@ import chResponse from '../db/chDbResponse'
 
 export default class Event{
     #id;
-    constructor(id, adminPassHash, eventInfo_id, editPassHash, code, codeHash){
+    constructor(id, adminPassHash, eventInfoId, editPassHash, code, codeHash){
         this.#id = id;
         this.code = code;
         this.codeHash = codeHash;
         this.adminPassHash = adminPassHash;
-        this.eventInfo_id = eventInfo_id;
+        this.eventInfoId = eventInfoId;
         this.editPassHash = editPassHash
     }
    
@@ -18,8 +18,8 @@ export default class Event{
     }
 }
 
-export const createEvent = async(adminPassHash, eventInfo_id, editPassHash, code, codeHash) =>{
-      let data = await DB.insert('event', ['adminPassHash', 'eventInfo_id', 'editPassHash', 'id', 'idHash'], [adminPassHash, eventInfo_id, editPassHash, code, codeHash])
+export const createEvent = async(adminPassHash, eventInfoId, editPassHash, code, codeHash) =>{
+      let data = await DB.insert('event', ['adminPassHash', 'eventInfoId', 'editPassHash', 'code', 'codeHash'], [adminPassHash, eventInfoId, editPassHash, code, codeHash])
       if(chResponse(data, 'Create event')){
         data = await DB.query(`SELECT ident_current('Event') as id`)
         if(chResponse(data, 'Create event')){        
@@ -30,71 +30,78 @@ export const createEvent = async(adminPassHash, eventInfo_id, editPassHash, code
       
 }
 
-export const deleteEvent = async(id_Event) =>{
-      let data = await DB.delete('event', id_Event)
+export const deleteEvent = async(idEvent) =>{
+      let data = await DB.delete('event', idEvent)
       if(chResponse(data, 'Delete event'))
         return true
 }
 
-export const updateEvent = async(id_Event, adminPassHash, eventInfo_id, editPassHash, code, codeHash) =>{
-    let data = await DB.update('event', id_Event, ['adminPassHash', 'eventInfo_id', 'editPassHash', 'id', 'idHash'], [adminPassHash, eventInfo_id, editPassHash, code, codeHash])
+export const updateEvent = async(idEvent, adminPassHash, eventInfoId, editPassHash, code, codeHash) =>{
+    let data = await DB.update('event', idEvent, ['adminPassHash', 'eventInfoId', 'editPassHash', 'code', 'codeHash'], [adminPassHash, eventInfoId, editPassHash, code, codeHash])
     if(chResponse(data, 'Update event')){
-      return new Event(id_Event, adminPassHash, eventInfo_id, editPassHash, code, codeHash)
+      return new Event(idEvent, adminPassHash, eventInfoId, editPassHash, code, codeHash)
     }
 }
 
 export const getEventByEventInfoId = async(eventInfoId) =>{
-  let data = await DB.query(`select id_Event, adminPassHash, eventInfo_Id, editPassHash, idHash, id from [Event] where EventInfo_id = '${eventInfoId}' AND [Event].idDelete = '0'`)
+  let data = await DB.query(`select idEvent, adminPassHash, eventInfoId, editPassHash, idHash, id from [Event] where eventInfoId = '${eventInfoId}' AND [Event].isDelete = '0'`)
   if(chResponse(data, 'Get event')){
     data = data.recordset[0]
-    return new Event(data.id_Event, data.adminPassHash, data.eventInfo_id, data.editPassHash, data.id, data.idHash)
+    return new Event(data.idEvent, data.adminPassHash, data.eventInfoId, data.editPassHash, data.code, data.codeHash)
   }
 }
 
 export const getEventAuthEdit = async(nameHash, codeHash, editPassHash) =>{
-    let data = await DB.query(`select id_Event, adminPassHash, eventInfo_id, editPassHash, id, idHash from [Event] ` +
-    `join EventInfo on eventInfo_id = id_EventInfo where ` +
+    let data = await DB.query(`select idEvent, adminPassHash, eventInfoId, editPassHash, code, codeHash from [Event] ` +
+    `join EventInfo on eventInfoId = idEventInfo where ` +
     `nameHash = '${nameHash}' ` +
     `AND editPassHash = '${editPassHash}' ` +
-    `AND idHash = '${codeHash}' AND [Event].idDelete = '0' AND [EventInfo].idDelete = '0'`)
+    `AND codeHash = '${codeHash}' AND [Event].isDelete = '0' AND [EventInfo].isDelete = '0'`)
     if(chResponse(data, 'Get event identification')){
-      data = data.recordset[0]
-      return new Event(data.id_Event, data.adminPassHash, data.eventInfo_id, data.editPassHash, data.id, data.idHash)
+      data = data.recordset[0]  
+      if(data == undefined)
+        throw new Error('Auth error.')
+      return new Event(data.idEvent, data.adminPassHash, data.eventInfoid, data.editPassHash, data.code, data.codeHash)
     }
 }
 
 export const getEventAuthAdmin = async(nameHash, codeHash, adminPassHash) =>{
-  let data = await DB.query(`select id_Event, adminPassHash, eventInfo_id, editPassHash, id, idHash from [Event] ` +
-  `join EventInfo on eventInfo_id = id_EventInfo where ` +
+  
+  let data = await DB.query(`select idEvent, adminPassHash, eventInfoId, editPassHash, code, codeHash from [Event] ` +
+  `join EventInfo on eventInfoId = idEventInfo where ` +
   `nameHash = '${nameHash}' ` +
   `AND adminPassHash = '${adminPassHash}' ` +
-  `AND idHash = '${codeHash}' AND [Event].idDelete = '0' AND [EventInfo].idDelete = '0'`)
-  if(chResponse(data, 'Get event identification')){    
+  `AND codeHash = '${codeHash}' AND [Event].isDelete = '0' AND [EventInfo].isDelete = '0'`)
+  if(chResponse(data, 'Get event identification')){   
     data = data.recordset[0]
-    return new Event(data.id_Event, data.adminPassHash, data.eventInfo_id, data.editPassHash, data.id, data.idHash)
+    if(data === undefined)
+      throw new Error('Auth error.') 
+    return new Event(data.idEvent, data.adminPassHash, data.eventInfoId, data.editPassHash, data.code, data.codeHash)
   }
 }
 
 export const getEventAuth = async(nameHash, codeHash) =>{
-    let data = await DB.query(`select id_Event, adminPassHash, eventInfo_id, editPassHash, id, idHash from [Event] ` +
-    `join EventInfo on eventInfo_id = id_EventInfo where ` +
+    let data = await DB.query(`select idEvent, adminPassHash, eventInfoid, editPassHash, code, codeHash from [Event] ` +
+    `join EventInfo on eventInfoId = idEventInfo where ` +
     `nameHash = '${nameHash}' ` +
-    `AND idHash = '${codeHash}' AND [Event].idDelete = '0' AND [EventInfo].idDelete = '0'`)
+    `AND codeHash = '${codeHash}' AND [Event].isDelete = '0' AND [EventInfo].isDelete = '0'`)
     if(chResponse(data, 'Get event identification')){
       data = data.recordset[0]
-      return new Event(data.id_Event, data.adminPassHash, data.eventInfo_id, data.editPassHash, data.id, data.idHash)
+      if(data == undefined)
+        throw new Error('Auth error.')
+      return new Event(data.idEvent, data.adminPassHash, data.eventInfoid, data.editPassHash, data.code, data.codeHash)
     }
 }
 
-export const updateEditPassEvent = async(id_Event, editPassHash) =>{
-  let data = await DB.update('event', id_Event, ['editPassHash'], [editPassHash])
+export const updateEditPassEvent = async(idEvent, editPassHash) =>{
+  let data = await DB.update('event', idEvent, ['editPassHash'], [editPassHash])
   if(chResponse(data, 'Update event edit pass')){
     return true
   }
 }
 
-export const updateAdminPassEvent = async(id_Event, adminPassHash) =>{
-  let data = await DB.update('event', id_Event, ['adminPassHash'], [adminPassHash])
+export const updateAdminPassEvent = async(idEvent, adminPassHash) =>{
+  let data = await DB.update('event', idEvent, ['adminPassHash'], [adminPassHash])
   if(chResponse(data, 'Update event admin pass')){
     return true
   }

@@ -7,13 +7,13 @@ import Log from './func/log'
 import {auth} from './func/auth'
 import crypto from 'crypto'
 
-export const updateProductGroupController = async({idProductGroup, name, description, userId},
+export const updateProductGroupController = async({id, name, description, userId},
     {['name-hash']: nameHash, ['code-hash']: codeHash, ['edit-pass-hash']: editPassHash}) =>  {
     try {
         //Checking data
         userId = +userId
-        idProductGroup = +idProductGroup
-        if(userId == NaN || idProductGroup == NaN)
+        id = +id
+        if(isNaN(userId) || isNaN(id))
             throw new Error('One of the id ​​is not a number.')
 
         if(description == undefined || description == '')
@@ -32,7 +32,7 @@ export const updateProductGroupController = async({idProductGroup, name, descrip
         await getUserByIdandEventId(userId, event.id)
            //edit product group
          
-        let ProductGroup = await updateProductGroup(idProductGroup, name, event.id, description)   
+        let ProductGroup = await updateProductGroup(id, name, event.id, description)   
                
        
             //Add log
@@ -50,12 +50,12 @@ export const updateProductGroupController = async({idProductGroup, name, descrip
     }
 }
 
-export const setProductBuyController = async({idProduct, buy},
+export const setProductBuyController = async({id, buy},
     {['name-hash']: nameHash, ['code-hash']: codeHash, ['edit-pass-hash']: editPassHash}) =>  {
         try {
             //Checking data
-            idProduct = +idProduct
-            if(idProduct == NaN )
+            id = +id
+            if(isNaN(id) || buy === undefined)
                 throw new Error('Id ​​is not a number.')
             
             if(buy === 1 || buy === '1' || buy === true)    
@@ -65,7 +65,7 @@ export const setProductBuyController = async({idProduct, buy},
               //Get event and auth
             await auth(1, nameHash, codeHash, editPassHash)
              
-            let product = await setProductBuy(idProduct, buy)   
+            let product = await setProductBuy(id, buy)   
                 
             return({
                 //Server response
@@ -81,13 +81,13 @@ export const setProductBuyController = async({idProduct, buy},
         }
     }
 
-export const updateEventInfoController = async({idEventInfo, name, date, limitations, description, userId},
+export const updateEventInfoController = async({id, name, date, limitations, description, userId},
     {['name-hash']: nameHash, ['code-hash']: codeHash, ['admin-pass-hash']: adminPassHash}) =>  {
         try {
             //Checking data
             userId = +userId
-            idEventInfo = +idEventInfo
-            if(userId == NaN || idEventInfo == NaN)
+            id = +id
+            if(isNaN(userId) || isNaN(id))
                 throw new Error('One of the id ​​is not a number.')
     
             if(description == undefined || description == '')
@@ -114,7 +114,7 @@ export const updateEventInfoController = async({idEventInfo, name, date, limitat
             await getUserByIdandEventId(userId, event.id)
                //edit Event info
             nameHash = crypto.createHash('sha256').update(name).digest('hex')
-            let EventInfo = await updateEventInfo(idEventInfo, name, nameHash, date, limitations, description)   
+            let EventInfo = await updateEventInfo(id, name, nameHash, date, limitations, description)   
                 //Add log
                 
             await Log(userId, 'Обнавлена информация о событии')
@@ -160,10 +160,12 @@ export const updateAdminPassController = async({newAdminPassHash},
     {['name-hash']: nameHash, ['code-hash']: codeHash, ['admin-pass-hash']: adminPassHash}) =>  {
         try {
             //Checking data
+            
             if(typeof newAdminPassHash != 'string' || newAdminPassHash.length !== 64)
                 throw new Error('Invalid data')
                 newAdminPassHash.trim()
               //Get event and auth
+              
             let event = await auth(2, nameHash, codeHash, adminPassHash)
                //edit editPassHash
              

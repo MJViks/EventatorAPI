@@ -6,6 +6,7 @@ import getRouter from './router/getRouter'
 import postRouter from './router/postRouter'
 import putRouter from './router/putRouter'
 import deleteRouter from './router/deleteRouter'
+import chAPIKey from './middleware/chAPIKey'
 
 const app = new Koa();
 
@@ -15,8 +16,7 @@ const app = new Koa();
 
 app.use(koaBody())
 app.use(async (ctx, next) =>{
-   
-   await next()
+  await chAPIKey(ctx, next)
 })
 app.use(getRouter.routes())
 app.use(getRouter.allowedMethods())
