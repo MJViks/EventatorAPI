@@ -7,3 +7,5 @@ appConfig.json
 dist
 
 database
+
+docker-compose.yaml
