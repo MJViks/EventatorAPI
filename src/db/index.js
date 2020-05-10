@@ -5,7 +5,7 @@ import env from 'dotenv'
 env.config();
 const connectPool = {
   "user": "sa",
-  "password": "123",
+  "password": "72F9EE388378F09B48F62CCBFFECA7D350196308A390654B74FAE5465951C185",
   "server": process.env.MSSQL_HOST,
   "database": "EventatorAPIv1",
   "options": {
