@@ -1,9 +1,21 @@
 import sql from 'mssql';
 // Config connection to the melon database
 import * as config from '../../appConfig.json';
+import env from 'dotenv'
+env.config();
+const connectPool = {
+  "user": "sa",
+  "password": "72F9EE388378F09B48F62CCBFFECA7D350196308A390654B74FAE5465951C185",
+  "server": process.env.MSSQL_HOST,
+  "database": "EventatorAPIv1",
+  "options": {
+    "encrypt": true,
+    "enableArithAbort": true
+}}
 
 export default class DB {
-    static #pool = new sql.ConnectionPool(config.db);
+
+    static #pool = new sql.ConnectionPool(connectPool);
     static #connect = this.#pool.connect()
     // The basic function of the request template. Based on this function, all queries are built
     // input:

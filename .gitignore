@@ -5,3 +5,7 @@ appConfig.json
 .env
 
 dist
+
+database
+
+docker-compose.yaml

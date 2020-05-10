@@ -1,7 +1,8 @@
 // import DB from './db'
 import Koa from 'koa'
 import koaBody from 'koa-body'
-
+import config from '../appConfig.json'
+import https from 'https'
 import getRouter from './router/getRouter'
 import postRouter from './router/postRouter'
 import putRouter from './router/putRouter'
@@ -11,13 +12,13 @@ import chAPIKey from './middleware/chAPIKey'
 const app = new Koa();
 
 
-
-
+app.env = "Release v1.0.0.0"
 
 app.use(koaBody())
 app.use(async (ctx, next) =>{
   await chAPIKey(ctx, next)
 })
+
 app.use(getRouter.routes())
 app.use(getRouter.allowedMethods())
 
@@ -38,4 +39,5 @@ app.use(async(ctx) => {
      };
 })
 
+// https.createServer(app.callback()).listen(config.api.port)
 app.listen(8080, ()=> console.log('Server has been started ;)'))

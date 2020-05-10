@@ -3,7 +3,6 @@
   "db": {
     "user": "USERNAME",
     "password": "PASSWORD",
-    "server": "SERVERNAME",
     "database": "EventatorDB",
     "options": {
         "encrypt": true,

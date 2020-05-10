@@ -1,17 +1,19 @@
 {
-  "name": "database",
+  "name": "eventator",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "babel src -d dist",
     "debug": "nodemon --exec babel-node src -d dist",
-    "start": "node dist/index"
+    "start": "node ./dist/index"
   },
   "author": "MJ_Viks",
   "license": "MIT",
   "dependencies": {
     "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-router": "^8.0.8",

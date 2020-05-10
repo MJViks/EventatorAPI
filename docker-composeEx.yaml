@@ -1,0 +1,41 @@
+version: '3.1'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    container_name: eventator_db
+    restart: always
+    ports:
+      - 1433:1433
+    environment:
+      ACCEPT_EULA: y
+    #   SA_PASSWORD: password
+      MSSQL_PID: Express
+      MSSQL_BACKUP_DIR: /usr/src/Eventator/database/backup
+      MSSQL_DATA_DIR: /usr/src/Eventator/database/data
+      MSSQL_LOG_DIR: /usr/src/Eventator/database/log
+    volumes: 
+      - ./database/backup:/usr/src/Eventator/database/backup
+      - ./database/data:/usr/src/Eventator/database/data
+      - ./database/log:/usr/src/Eventator/database/log
+  api:
+    build: ./
+    container_name: eventator_api
+    restart: always
+    environment:
+        MSSQL_HOST: db
+    ports:
+      - 8080:8080
+    links:
+      - db
+  nginx:
+    image: nginx:1.17.10
+    container_name: eventator_nginx
+    volumes: 
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - api
+    ports:
+      - 80:80
+    
+
