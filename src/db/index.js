@@ -5,7 +5,7 @@ import env from 'dotenv'
 env.config();
 const connectPool = {
   "user": "sa",
-  "password": "72F9EE388378F09B48F62CCBFFECA7D350196308A390654B74FAE5465951C185",
+  "password": "123",
   "server": process.env.MSSQL_HOST,
   "database": "EventatorAPIv1",
   "options": {
@@ -56,31 +56,33 @@ export default class DB {
     static insert = async (table, fild, value) => {
       value = this.#setQuote(value);
       
-      if (fild.length === value.length) { return await DB.query(`INSERT INTO [${table}] (${fild}) VALUES (${value})`); }
+      if (fild.length === value.length) { return DB.query(`INSERT INTO [${table}] (${fild}) VALUES (${value})`); }
       return 'Arrays are not equal';
     }
 
     // function delete based on DB.query
     // input:
     // table: string, id: int
+
     static delete = async (table, id) => {
       let isDelete = await DB.query(`select isDelete from ${table} where id${table} = ${id}`)
         if(isDelete.recordset[0].isDelete)
           throw new Error('No table exists.')
       return await DB.query(`UPDATE [${table}] SET isDelete = '1' WHERE id${table} = ${id} AND isDelete = '0'`)
     }
-
      // function updete based on DB.query
      // input:
      // table: string, id: int, fild: arr[string], value: arr[string]
      static update = async (table, id, fild, value) => {
        value = this.#setQuote(value);
+
        let isDelete = await DB.query(`select isDelete from ${table} where id${table} = ${id}`)
         if(isDelete.recordset[0].isDelete)
           throw new Error('No table exists.')
        if (fild.length === value.length) {
          const approp = fild.map((val, i) => `${val} = ${value[i]}`);
          return await DB.query(`UPDATE [${table}] SET ${approp} WHERE id${table} = ${id} AND isDelete = '0'`);
+
        }
        return 'Arrays are not equal';
      }

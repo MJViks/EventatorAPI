@@ -9,11 +9,6 @@ export const auth = async(mode, nameHash, codeHash, PassHash) =>  {
         if(PassHash != undefined && typeof PassHash != 'string')
             throw new Error('Invalid auth data')
             
-        if(PassHash != undefined)
-            PassHash.trim()
-        nameHash.trim()
-        codeHash.trim()
-        
          switch (mode) {
              case 0:
                 if(nameHash.length === 64 && codeHash.length === 64){

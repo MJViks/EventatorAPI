@@ -48,6 +48,8 @@ export const getUserByIdandEventId = async(idUser, eventId) =>{
     let data = await DB.query(`select idUser, name, eventId from [User] where idUser = '${idUser}' AND EventId = '${eventId}' AND [User].isDelete = '0'`)
     
     if(chResponse(data, 'No user in event')){
+        
+      console.log(data);
         data = data.recordset[0]
         return new User(data.idUser, data.name, data.eventId)
     }

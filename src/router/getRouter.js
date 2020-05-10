@@ -78,7 +78,7 @@ router.get(version + '/User', async(ctx)=>{
     }
 })
 
-router.get(version + '/StatsByGroup', async(ctx)=>{
+router.get(version + '/getStatsByGroup', async(ctx)=>{
     try {
         ctx.body = await getStatsByGroupController({...ctx.request.query}, {...ctx.header})
     } catch (error) {
@@ -86,7 +86,7 @@ router.get(version + '/StatsByGroup', async(ctx)=>{
     }
 })
 
-router.get(version + '/StatsByEvent', async(ctx)=>{
+router.get(version + '/getStatsByEvent', async(ctx)=>{
     try {
         ctx.body = await getStatsByEventController({...ctx.request.query}, {...ctx.header})
     } catch (error) {
