@@ -41,7 +41,7 @@ router.put(version + '/AdminPass', async(ctx)=>{
     }
 })
 
-router.put(version + '/updateProductGroup', async(ctx)=>{
+router.put(version + '/ProductGroup', async(ctx)=>{
     try {
     //    console.log(ctx.query.id); 
     console.log(ctx.request.body);
