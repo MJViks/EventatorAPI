@@ -11,4 +11,4 @@ RUN  apt-get update & apt-get upgrade & npm install
 
 EXPOSE 8080
 
-CMD [ "npm", "start" ]
+CMD sleep 15 && npm start
