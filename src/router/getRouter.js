@@ -4,7 +4,7 @@ import errorHandler from './errorHandler'
 import {getStatsByUsersController, getStatsByEventController, getStatsByGroupController,
         getUsersController, getLogsController,
         getProductController, getProductsController, getProductGroupController,
-        getProductGroupsController, getEventInfoController, getUserController} from '../controllers/get'
+        getProductGroupsController, getEventInfoController, getUserController, getAuth} from '../controllers/get'
 const router = new Router()
 
 const version = '/' + config.api.version
@@ -17,6 +17,14 @@ router.get(version + '/', async(ctx, next) =>{
 router.get(version + '/EventInfo', async(ctx)=>{
     try {
         ctx.body = await getEventInfoController({...ctx.request.query},{...ctx.header})
+    } catch (error) {
+        errorHandler(ctx, error)
+    }
+})
+
+router.get(version + '/Auth', async(ctx)=>{
+    try {
+        ctx.body = await getAuth({...ctx.header})
     } catch (error) {
         errorHandler(ctx, error)
     }

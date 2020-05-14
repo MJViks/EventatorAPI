@@ -1,4 +1,5 @@
 export default (data, moduleName) =>{  
+console.log(data);
 
     //Response test
     if(data.rowsAffected)

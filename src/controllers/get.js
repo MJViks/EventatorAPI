@@ -242,3 +242,29 @@ export const getUserController = async({id, depth},{['name-hash']: nameHash, ['c
         throw new Error(err)
     }
 }
+
+    export const getAuth = async({['name-hash']: nameHash, ['code-hash']: codeHash, ['edit-pass-hash']: editPassHash, ['admin-pass-hash']: adminPassHash}) =>  {
+        try {   
+            
+            
+              //Get event and auth
+              console.log(editPassHash);
+            let event
+            if(editPassHash != "" && editPassHash != undefined)
+               event = await auth(1, nameHash, codeHash, editPassHash)
+            if(adminPassHash != "" && adminPassHash != undefined)
+                event = await auth(2, nameHash, codeHash, adminPassHash)
+            if (!event)
+                throw new Error('Invalid auth')
+            
+            
+            return({
+                //Server response
+                status: 200,
+                sucses: 'ok'
+                })
+        } catch (err) {
+            //Error return
+            throw new Error(err)
+        }
+}

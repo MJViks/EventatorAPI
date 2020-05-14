@@ -81,15 +81,11 @@ export const setProductBuyController = async({id, buy},
         }
     }
 
-export const updateEventInfoController = async({id, name, date, limitations, description, userId},
+export const updateEventInfoController = async({name, date, limitations, description, userId},
     {['name-hash']: nameHash, ['code-hash']: codeHash, ['admin-pass-hash']: adminPassHash}) =>  {
         try {
             //Checking data
             userId = +userId
-            id = +id
-            if(isNaN(userId) || isNaN(id))
-                throw new Error('One of the id ​​is not a number.')
-    
             if(description == undefined || description == '')
                 description = null
             if (description != null && description.length > 300)
@@ -103,8 +99,8 @@ export const updateEventInfoController = async({id, name, date, limitations, des
     
             if(date == undefined || date == '0' || date == '')
                 date = null
-            if(date != null && date != undefined && date.search(/^\d{2}[.]\d{2}[.]\d{2}$/) !== 0)
-                throw new Error('Event create error. Invalid input data. DATA = __.__.__')
+            if(date != null && date != undefined && date.search(/^\d{2}[.]\d{2}[.]\d{4}$/) !== 0)
+                throw new Error('Event create error. Invalid input data. DATA = __.__.____')
             if(limitations == undefined || limitations == 0 || typeof limitations == 'string')
                 limitations = null
             if(limitations != null && +limitations < 0)
@@ -114,7 +110,7 @@ export const updateEventInfoController = async({id, name, date, limitations, des
             await getUserByIdandEventId(userId, event.id)
                //edit Event info
             nameHash = crypto.createHash('sha256').update(name).digest('hex')
-            let EventInfo = await updateEventInfo(id, name, nameHash, date, limitations, description)   
+            let EventInfo = await updateEventInfo(event.id, name, nameHash, date, limitations, description)   
                 //Add log
                 
             await Log(userId, 'Обнавлена информация о событии')

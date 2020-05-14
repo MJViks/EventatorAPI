@@ -73,8 +73,8 @@ export const createEventController = async({name,  description, limitations, dat
 
         if(date == undefined || date == '0' || date == '')
             date = null
-        if(date != null && date != undefined && date.search(/^\d{2}[.]\d{2}[.]\d{2}$/) !== 0)
-            throw new Error('Event create error. Invalid input data. DATA = __.__.__')
+        if(date != null && date != undefined && date.search(/^\d{2}[.]\d{2}[.]\d{4}$/) !== 0)
+            throw new Error('Event create error. Invalid input data. DATA = __.__.____')
 
         if(limitations == undefined || limitations == 0 || typeof limitations == 'string')
             limitations = null
@@ -99,7 +99,8 @@ export const createEventController = async({name,  description, limitations, dat
         
         let idEventInfo = await createEventInfo(name, nameHash, date, limitations, description)
         let idEvent = await createEvent(adminPassHash, idEventInfo, editPassHash, code, codeHash)
-          await createUserController({name: userName},{['name-hash']: nameHash, ['code-hash']: codeHash})
+        let userResp = await createUserController({name: userName},{['name-hash']: nameHash, ['code-hash']: codeHash})
+        let user = userResp.user
             return({
               //Server response
                 status: 200,
@@ -115,7 +116,8 @@ export const createEventController = async({name,  description, limitations, dat
                 event:{
                     id: idEvent,
                     code: code
-                }
+                },
+                user
               })
       } catch (err) {
         //Error return
