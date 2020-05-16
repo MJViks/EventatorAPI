@@ -71,13 +71,13 @@ export const setProductBuyController = async({id, buy},
 		//Get event and auth
 		await auth(1, nameHash, codeHash, editPassHash)
              
-		let product = await setProductBuy(id, buy)   
+		let Product = await setProductBuy(id, buy)   
                 
 		return({
 			//Server response
 			status: 200,
 			sucses: 'ok',
-			product
+			Product
 		})
 	} catch (err) {
 		//Error return

@@ -7,7 +7,7 @@ import {getEventInfoByEventId} from '../models/EventInfo'
 import {getProductGroupsByEventId, getProductGroupById} from '../models/ProductGroup'
 import {getProductByIdandEventId, getProductsByProductGroupId, getProductsByEventId} from '../models/Product'
 import {getLogsByEventId, getLogsByUserId} from '../models/Log'
-import {getUsersByLogId, getUsersByEventId, getUserByIdandEventId} from '../models/User'
+import {getUserByLogId, getUsersByEventId, getUserByIdandEventId} from '../models/User'
 
 //A method of obtaining data about an event that is identified.
 // Optional: Receiving receipt of product groups included in the event
@@ -125,12 +125,12 @@ export const getProductController = async({id},{['name-hash']: nameHash, ['code-
 		//Get event and auth
 		let event = await auth(0, nameHash, codeHash)
        
-		let product = await getProductByIdandEventId(id, event.id)
+		let Product = await getProductByIdandEventId(id, event.id)
 		return({
 			//Server response
 			status: 200,
 			sucses: 'ok',
-			product
+			Product
 		})
 	} catch (err) {
 		//Error return
@@ -186,7 +186,7 @@ export const getLogsController = async({count, depth},{['name-hash']: nameHash, 
 		if(depth)
 		//Adding Nested Information
 			for (let Log in Logs)
-				Logs[Log]['user'] = await getUsersByLogId(Logs[Log].idLog, config.api.getConstreint)
+				Logs[Log]['User'] = await getUserByLogId(Logs[Log].idLog, config.api.getConstreint)
 
 
 		return({

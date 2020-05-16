@@ -87,11 +87,11 @@ export const getUserByEventIdandName = async(eventId, name) =>{
 }
 //Getting user information by log ID
 //logId, count: integer
-export const getUsersByLogId = async(logId, count) =>{       
+export const getUserByLogId = async(logId, count) =>{       
 	let data =  await DB.query(`select TOP ${count} idUser, [User].name
     from [Log] join [User] on UserId = idUser
      where idlog = '${logId}' AND [User].isDelete = '0'`)
-	if(chResponse(data, 'Get users')){   
+	if(chResponse(data, 'Get user')){   
         
 		let answer = {}
 		data.recordset.forEach((element) => {
@@ -102,11 +102,3 @@ export const getUsersByLogId = async(logId, count) =>{
 	}
 }
 
-//eventId: integer
-export const getUserByEventId = async(eventId) =>{
-	let data = await DB.query(`select idUser, name from [User] where eventId = '${eventId}' AND [User].isDelete = '0'`)
-	if(chResponse(data, 'Get user')){
-		data = data.recordset[0]
-		return new User(data.idUser, data.name, data.eventId)
-	}
-}

@@ -26,17 +26,17 @@ export const createUserController = async({name},{['name-hash']: nameHash, ['cod
 		let event = await auth(0, nameHash, codeHash)
 		//delete product
 		if(await createUser(name, event.id)){
-			let user = await getUserByEventIdandName(event.id, name)            
+			let User = await getUserByEventIdandName(event.id, name)            
 			//Add log
-			await Log(user.id, 'Добавлен в событие')
+			await Log(User.id, 'Добавлен в событие')
 			return({
 				//Server response
 				status: 200,
 				sucses: 'ok',
-				user: {
-					id: user.id,
-					name: user.name,
-					eventId: user.event_id
+				User: {
+					id: User.id,
+					name: User.name,
+					eventId: User.event_id
 				}
 			})
 		}
@@ -109,12 +109,12 @@ export const createEventController = async({name,  description, limitations, dat
 		let idEventInfo = await createEventInfo(name, nameHash, date, limitations, description)
 		let idEvent = await createEvent(adminPassHash, idEventInfo, editPassHash, code, codeHash)
 		let userResp = await createUserController({name: userName},{['name-hash']: nameHash, ['code-hash']: codeHash})
-		let user = userResp.user
+		let User = userResp.User
 		return({
 			//Server response
 			status: 200,
 			sucses: 'ok',
-			eventInfo:{
+			EventInfo:{
 				id: idEventInfo,
 				name: name,
 				nameHash: nameHash,
@@ -122,11 +122,11 @@ export const createEventController = async({name,  description, limitations, dat
 				limitations: limitations,
 				description: description
 			},
-			event:{
+			Event:{
 				id: idEvent,
 				code: code
 			},
-			user
+			User
 		})
 	} catch (err) {
 		//Error return
