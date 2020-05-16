@@ -7,7 +7,8 @@
   "scripts": {
     "build": "babel src -d dist",
     "debug": "nodemon --exec babel-node src -d dist",
-    "start": "node ./dist/index"
+    "start": "node ./dist/index",
+    "eslint": "eslint  --fix src"
   },
   "author": "MJ_Viks",
   "license": "MIT",
