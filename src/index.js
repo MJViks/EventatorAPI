@@ -6,11 +6,13 @@ import postRouter from './router/postRouter'
 import putRouter from './router/putRouter'
 import deleteRouter from './router/deleteRouter'
 import chAPIKey from './middleware/chAPIKey'
-
+import ddos from './middleware/ddos'
 const app = new Koa()
 
 //version
 app.env = 'Release v1.0.0.0'
+
+app.use(ddos)
 
 app.use(koaBody())
 
