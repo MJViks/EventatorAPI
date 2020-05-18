@@ -1,22 +1,24 @@
 // import DB from './db'
 import Koa from 'koa'
 import koaBody from 'koa-body'
-import config from '../appConfig.json'
-import https from 'https'
 import getRouter from './router/getRouter'
 import postRouter from './router/postRouter'
 import putRouter from './router/putRouter'
 import deleteRouter from './router/deleteRouter'
 import chAPIKey from './middleware/chAPIKey'
+import ddos from './middleware/ddos'
+const app = new Koa()
 
-const app = new Koa();
+//version
+app.env = 'Release v1.0.3'
 
-
-app.env = "Release v1.0.0.0"
+app.use(ddos)
 
 app.use(koaBody())
+
+//API Key Check
 app.use(async (ctx, next) =>{
-  await chAPIKey(ctx, next)
+	await chAPIKey(ctx, next)
 })
 
 app.use(getRouter.routes())
@@ -31,12 +33,13 @@ app.use(putRouter.allowedMethods())
 app.use(deleteRouter.routes())
 app.use(deleteRouter.allowedMethods())
 
+//If the route is not found
 app.use(async(ctx) => {
-    ctx.status = 404
-    ctx.body = {
-        status: 404,
-        message: 'Page not found'
-     };
+	ctx.status = 404
+	ctx.body = {
+		status: 404,
+		message: 'Page not found'
+	}
 })
 
 // https.createServer(app.callback()).listen(config.api.port)

@@ -1,8 +1,10 @@
 export default (ctx, err) => {
-    ctx.status = err.statusCode || err.status || 500;
-    ctx.body = {
-    status: ctx.status,
-    message: err.message
-};  
+	//We indicate the status of the response
+	ctx.status = err.statusCode || err.status || 500
+	//Specify the response body
+	ctx.body = {
+		status: ctx.status,
+		message: err.message
+	}  
 
 }
