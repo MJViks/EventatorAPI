@@ -29,7 +29,7 @@ export const getEventInfoController = async({depth},{['name-hash']: nameHash, ['
 			//Adding Nested Information
 			EventInfo.ProdictGroups = await getProductGroupsByEventId(event.id, config.api.getConstreint)
 			for (let ProductGroup in  EventInfo.ProdictGroups)
-				EventInfo.ProdictGroups[ProductGroup]['products'] = 
+				EventInfo.ProdictGroups[ProductGroup]['Products'] = 
                 await getProductsByProductGroupId(EventInfo.ProdictGroups[ProductGroup].idProductGroup, config.api.getConstreint)
 		}
             
@@ -67,7 +67,7 @@ export const getProductGroupsController = async({count, depth},{['name-hash']: n
 		if(depth)
 		//Adding Nested Information
 			for (let ProductGroup in  ProductGroups)
-				ProductGroups[ProductGroup]['products'] = await getProductsByProductGroupId(ProductGroups[ProductGroup].idProductGroup, config.api.getConstreint)
+				ProductGroups[ProductGroup]['Products'] = await getProductsByProductGroupId(ProductGroups[ProductGroup].idProductGroup, config.api.getConstreint)
 
 		return({
 			//Server response
@@ -99,7 +99,7 @@ export const getProductGroupController = async({id, depth},{['name-hash']: nameH
 		let ProductGroup = await getProductGroupById(id)
 		if(depth)
 		//Adding Nested Information
-			ProductGroup['products'] = await getProductsByProductGroupId(id, config.api.getConstreint)
+			ProductGroup['Products'] = await getProductsByProductGroupId(id, config.api.getConstreint)
 		return({
 			//Server response
 			status: 200,
@@ -223,7 +223,7 @@ export const getUsersController = async({count, depth},{['name-hash']: nameHash,
 		if(depth)
 		//Adding Nested Information
 			for (let User in Users)
-				Users[User]['logs'] = await getLogsByUserId(Users[User].idUser, config.api.getConstreint)
+				Users[User]['Logs'] = await getLogsByUserId(Users[User].idUser, config.api.getConstreint)
 
 
 		return({
@@ -259,7 +259,7 @@ export const getUserController = async({id, depth},{['name-hash']: nameHash, ['c
 		let User = await getUserByIdandEventId(id, event.id)
 		if(depth)
 		//Adding Nested Information
-			User['logs'] = await getLogsByUserId(User.id, config.api.getConstreint)
+			User['Logs'] = await getLogsByUserId(User.id, config.api.getConstreint)
 		return({
 			//Server response
 			status: 200,

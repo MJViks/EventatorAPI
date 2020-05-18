@@ -46,7 +46,7 @@ export const updateProductGroupController = async({id, name, description, userId
 		return({
 			//Server response
 			status: 200,
-			sucses: 'ok',
+			success: 'ok',
 			ProductGroup
 		})
 	} catch (err) {
@@ -76,7 +76,7 @@ export const setProductBuyController = async({id, buy},
 		return({
 			//Server response
 			status: 200,
-			sucses: 'ok',
+			success: 'ok',
 			Product
 		})
 	} catch (err) {
@@ -124,7 +124,7 @@ export const updateEventInfoController = async({name, date, limitations, descrip
 		return({
 			//Server response
 			status: 200,
-			sucses: 'ok',
+			success: 'ok',
 			EventInfo
 		})
 	} catch (err) {
@@ -150,7 +150,7 @@ export const updateEditPassController = async({newEditPassHash},
 		return({
 			//Server response
 			status: 200,
-			sucses: 'ok',
+			success: 'ok',
 		})
 	} catch (err) {
 		//Error return
@@ -175,7 +175,7 @@ export const updateAdminPassController = async({newAdminPassHash},
 		return({
 			//Server response
 			status: 200,
-			sucses: 'ok',
+			success: 'ok',
 		})
 	} catch (err) {
 		//Error return

@@ -30,7 +30,7 @@ export const deleteProductController = async({id, userId},{['name-hash']: nameHa
 				return({
 					//Server response
 					status: 200,
-					sucses: 'ok'
+					success: 'ok'
 				})
 			}
 		}
@@ -52,7 +52,7 @@ export const deleteEventController = async({['name-hash']: nameHash, ['code-hash
 		return({
 			//Server response
 			status: 200,
-			sucses: 'ok'
+			success: 'ok'
 		})
       
 	} catch (err) {
@@ -84,7 +84,7 @@ export const deleteProductGroupController = async({id, userId},
 				return({
 					//Server response
 					status: 200,
-					sucses: 'ok'
+					success: 'ok'
 				})
 			}
 		}

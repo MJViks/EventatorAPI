@@ -4,6 +4,7 @@ export default (ctx, err) => {
 	//Specify the response body
 	ctx.body = {
 		status: ctx.status,
+		success: 'error',
 		message: err.message
 	}  
 

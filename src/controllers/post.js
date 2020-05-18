@@ -32,7 +32,7 @@ export const createUserController = async({name},{['name-hash']: nameHash, ['cod
 			return({
 				//Server response
 				status: 200,
-				sucses: 'ok',
+				success: 'ok',
 				User: {
 					id: User.id,
 					name: User.name,
@@ -113,7 +113,7 @@ export const createEventController = async({name,  description, limitations, dat
 		return({
 			//Server response
 			status: 200,
-			sucses: 'ok',
+			success: 'ok',
 			EventInfo:{
 				id: idEventInfo,
 				name: name,
@@ -162,7 +162,7 @@ export const createProductGroupController = async({name, description, userId},{[
 		return({
 			//Server response
 			status: 200,
-			sucses: 'ok',
+			success: 'ok',
 			ProductGroup: {
 				id: ProductGroupId,
 				name: name,
@@ -214,12 +214,12 @@ export const createProductController = async({name, price, count, description, p
 		return({
 			//Server response
 			status: 200,
-			sucses: 'ok',
+			success: 'ok',
 			Product: {
 				id: ProductId,
 				name: name,
 				price: price,
-				const: count,
+				count: count,
 				buy: 0,
 				description: description,
 				productGroupId: productGroupId
