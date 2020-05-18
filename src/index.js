@@ -10,7 +10,7 @@ import ddos from './middleware/ddos'
 const app = new Koa()
 
 //version
-app.env = 'Release v1.0.0.0'
+app.env = 'Release v1.0.3'
 
 app.use(ddos)
 
