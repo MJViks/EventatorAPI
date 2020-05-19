@@ -26,7 +26,7 @@ export const deleteProductController = async({id, userId},{['name-hash']: nameHa
 			//delete product
 			if(await deleteProduct(product.id)){
 				//Add log
-				await Log(userId, 'Удалена группа ' + product.name)
+				await Log(userId, 'Удален продукт ' + product.name)
 				return({
 					//Server response
 					status: 200,

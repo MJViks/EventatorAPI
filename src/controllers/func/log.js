@@ -11,7 +11,7 @@ export default async(idUser, action) =>  {
 		let user = await getUserById(idUser)
 		if(user)
 		//Create a new log
-			await createLog(user.name + ' -> ' + action, user.id)
+			await createLog(action, user.id)
 	}
 	else
 		throw new Error('Logging error. Invalid data') 
