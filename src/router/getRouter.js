@@ -1,10 +1,10 @@
 import Router from 'koa-router'
 import config from '../../appConfig.json'
 import errorHandler from './errorHandler'
-import {getStatsByUsersController, getStatsByEventController, getStatsByGroupController,
-	getUsersController, getLogsController,
+import {getUsersController, getLogsController,
 	getProductController, getProductsController, getProductGroupController,
 	getProductGroupsController, getEventInfoController, getUserController, getAuth} from '../controllers/get'
+import {getStatsByUsersController, getStatsByEventController, getStatsByProductGroupController} from '../controllers/getStats'
 const router = new Router()
 
 const version = '/' + config.api.version
@@ -86,17 +86,17 @@ router.get(version + '/User', async(ctx)=>{
 	}
 })
 
-router.get(version + '/getStatsByGroup', async(ctx)=>{
+router.get(version + '/StatsByProductGroup', async(ctx)=>{
 	try {
-		ctx.body = await getStatsByGroupController({...ctx.request.query}, {...ctx.header})
+		ctx.body = await getStatsByProductGroupController({...ctx.request.query}, {...ctx.header})
 	} catch (error) {
 		errorHandler(ctx, error)
 	}
 })
 
-router.get(version + '/getStatsByEvent', async(ctx)=>{
+router.get(version + '/StatsByEvent', async(ctx)=>{
 	try {
-		ctx.body = await getStatsByEventController({...ctx.request.query}, {...ctx.header})
+		ctx.body = await getStatsByEventController({...ctx.header})
 	} catch (error) {
 		errorHandler(ctx, error)
 	}
