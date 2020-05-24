@@ -2,10 +2,10 @@ import sql from 'mssql'
 import env from 'dotenv'
 env.config()
 const connectPool = {
-	'user': 'sa',
-	'password': '72F9EE388378F09B48F62CCBFFECA7D350196308A390654B74FAE5465951C185',
+	'user': process.env.MSSQL_USER,
+	'password': process.env.MSSQL_PASS,
 	'server': process.env.MSSQL_HOST,
-	'database': 'EventatorAPIv1',
+	'database': process.env.MSSQL_DB,
 	'options': {
 		'encrypt': true,
 		'enableArithAbort': true

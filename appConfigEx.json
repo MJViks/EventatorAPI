@@ -1,20 +1,9 @@
-
 {
-  "db": {
-    "user": "USERNAME",
-    "password": "PASSWORD",
-    "database": "EventatorDB",
-    "options": {
-        "encrypt": true,
-        "enableArithAbort": true
-      }
-  },
   "api": {
       "version": "v1",
-      "getConstreint": 500,
-      "port": 443
+      "getConstreint": 500
   },
   "apiKeys":{
-      "ios": "cfe1ec7d7204457d4f234bc9546d330a7a5293bbcb0a3fd46bdcb790f7e15e75"
+      "ios": "key"
   }
 }

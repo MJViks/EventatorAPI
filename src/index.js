@@ -7,10 +7,13 @@ import putRouter from './router/putRouter'
 import deleteRouter from './router/deleteRouter'
 import chAPIKey from './middleware/chAPIKey'
 import ddos from './middleware/ddos'
+import env from 'dotenv'
+env.config()
+
 const app = new Koa()
 
 //version
-app.env = 'Release v1.0.3'
+app.env = 'Release v1.0.4'
 
 app.use(ddos)
 
@@ -43,4 +46,4 @@ app.use(async(ctx) => {
 })
 
 // https.createServer(app.callback()).listen(config.api.port)
-app.listen(8080, ()=> console.log('Server has been started ;)'))
+app.listen(process.env.APP_PORT, ()=> console.log('Server has been started ;)'))
