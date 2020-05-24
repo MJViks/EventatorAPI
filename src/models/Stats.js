@@ -16,7 +16,7 @@ export const getStatsByProductGroup = async(idProductGroup, eventId) =>{
     sum([Product].[price] * [Product].[count]) as 'productPrice' from Product 
     join ProductGroup on idProductGroup = ProductGroupID
     join Event on idEvent = eventId
-    where eventId = '${eventId}' and ProductGroupId = '${idProductGroup}'
+    where eventId = '${eventId}' and ProductGroupId = '${idProductGroup}' and [ProductGroup].[isDelete] = 0 and [Product].[isDelete] = 0
     group by [ProductGroup].[name] order by [productPrice] desc`)
 	if(chResponse(data, 'Get stats By Product Group')){ 
 		data = data.recordset[0]
@@ -29,8 +29,8 @@ export const getStatsByEvent = async(eventId) =>{
 	let data =  await DB.query(`select [ProductGroup].[name]  as 'productGroupName', sum([Product].[count]) as 'productCount', 
     sum([Product].[price] * [Product].[count]) as 'productPrice' from Product 
     join ProductGroup on idProductGroup = ProductGroupID
-    join Event on idEvent = '${eventId}'
-    where eventId = 1
+    join Event on idEvent = eventId
+    where eventId = '${eventId}' and [ProductGroup].[isDelete] = 0 and [Product].[isDelete] = 0
     group by [ProductGroup].[name] order by [productPrice] desc`)
 	if(chResponse(data, 'Get stats By Product Group')){ 
 		let answer = {}
@@ -48,7 +48,8 @@ export const getStatsByEvent = async(eventId) =>{
 export const getStatsByUsers = async(userCount, eventId) =>{       
 	let data =  await DB.query(`select sum([Product].[price] * [Product].[count]) / '${userCount}' as 'price', '${userCount}' as 'userCount' from Product 
     join ProductGroup on idProductGroup = ProductGroupID
-    join Event on idEvent = '${eventId}'
+    join Event on idEvent = eventId
+    where eventId = '${eventId}' and [ProductGroup].[isDelete] = 0 and [Product].[isDelete] = 0
     order by [price] desc`)
 	if(chResponse(data, 'Get stats By Product Group')){ 
 		let answer = data.recordset[0]
