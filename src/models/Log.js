@@ -41,7 +41,7 @@ export const updateLog = async(idLog, date, time, action, userId) =>{
 //Getting current date
 const getDate = () =>{
 	let date = new Date()
-	return setZiro(date.getDate()) + '.' + setZiro(date.getMonth()) + '.' + date.getFullYear().toString().slice(2,4)
+	return setZiro(date.getDate()) + '.' + setZiro(date.getMonth() + 1) + '.' + date.getFullYear().toString().slice(2,4)
 }
 
 //Getting current time
