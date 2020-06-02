@@ -9,3 +9,5 @@ dist
 database
 
 docker-compose.yaml
+
+build&Push.bat

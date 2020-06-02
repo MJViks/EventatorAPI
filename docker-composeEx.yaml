@@ -9,7 +9,7 @@ services:
       - 1433:1433
     environment:
       ACCEPT_EULA: y
-      # SA_PASSWORD: 
+      SA_PASSWORD: 72F9EE388378F09B48F62CCBFFECA7D350196308A390654B74FAE5465951C185
       MSSQL_PID: Express
       MSSQL_BACKUP_DIR: /usr/src/Eventator/database/backup
       MSSQL_DATA_DIR: /usr/src/Eventator/database/data
@@ -24,6 +24,7 @@ services:
     restart: always
     environment:
       MSSQL_HOST: db
+      MSSQL_PASS: #pass
     ports:
       - 8080:8080
     links:
@@ -36,9 +37,14 @@ services:
     restart: always
     volumes: 
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - /etc/letsencrypt/live/api.eventatorapp.com/fullchain.pem:/etc/ssl/fullchain.pem
+      - /etc/letsencrypt/live/api.eventatorapp.com/privkey.pem:/etc/ssl/privkey.pem
+      - ./nginx/log:/var/log/nginx
+      - ./nginx/html:/usr/src/html
     links:
       - api
     ports:
+      - 443:443
       - 80:80
     
 
